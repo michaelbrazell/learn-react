@@ -18,7 +18,7 @@ var GreeterForm = React.createClass({
       </form>
     );
   }
-})
+});
 
 
 
