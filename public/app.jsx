@@ -1,5 +1,8 @@
+// Presentational Component
 var GreeterMessage = React.createClass({
   render: function() {
+
+    // These props are grabbed from the parent component (e.g., Greeter)
     var name = this.props.name;
     var message = this.props.message;
     return (
@@ -11,13 +14,17 @@ var GreeterMessage = React.createClass({
     }
 });
 
+// Presentational Component
+// This does not save any state.
 var GreeterForm = React.createClass({
   onFormSubmit: function (e) {
     e.preventDefault();
+
     var name = this.refs.name.value;
 
     if (name.length > 0) {
       this.refs.name.value = '';
+      // This component knows it's going to get this function which it gets from the parent component
       this.props.onNewName(name);
     }
   },
@@ -31,8 +38,11 @@ var GreeterForm = React.createClass({
   }
 });
 
-var Greeter = React.createClass({ // This is a react component. createClass() is the most common react method.
-  getDefaultProps: function () { // Sets a default prop for the name prop but can be overwritten
+// Container Component have state, presentational components don't
+// Presentation containers should not do much rendering other than rendering children
+// You can't update prop values in React. You can only update their state
+var Greeter = React.createClass({
+  getDefaultProps: function () {
     return {
       name: 'React',
       message: 'This is from a component'
@@ -43,13 +53,13 @@ var Greeter = React.createClass({ // This is a react component. createClass() is
       name: this.props.name
     };
   },
-  handleNewName: function (name) { // This function gets passed an event handler in (e)
+  handleNewName: function (name) {
     this.setState({
       name: name
     })
   },
-  render: function () { // Only thing that's required is render method; needs to return JSX
-    var name = this.state.name; // Refers to the state from onButtonClick method
+  render: function () {
+    var name = this.state.name;
     var message = this.props.message;
     return (
       <div>
