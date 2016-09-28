@@ -20,19 +20,29 @@ var GreeterForm = React.createClass({
   onFormSubmit: function (e) {
     e.preventDefault();
 
+    var updates = {};
     var name = this.refs.name.value;
+    var message = this.refs.message.value;
 
-    if (name.length > 0) {
+    if (name.length > 0 ) {
       this.refs.name.value = '';
-      // This component knows it's going to get this function which it gets from the parent component
-      this.props.onNewName(name);
+      updates.name = name;
     }
+
+    if (message.length > 0) {
+      this.refs.message.value='';
+      updates.message = message;
+    }
+
+    // This component knows it's going to get this function which it gets from the parent component
+    this.props.onNewData(updates);
   },
   render: function() {
     return (
       <form onSubmit={this.onFormSubmit}>
-        <input type="text" ref="name" />
-        <button>Set Name</button>
+        <div><textarea placeholder="Enter Message" ref="message"/></div>
+        <div><input placeholder="Enter name" type="text" ref="name" /></div>
+        <div><button>Submit</button></div>
       </form>
     );
   }
@@ -45,34 +55,32 @@ var Greeter = React.createClass({
   getDefaultProps: function () {
     return {
       name: 'React',
-      message: 'This is from a component'
+      message: 'This is my test message'
     };
   },
   getInitialState: function () { // Sets initial state
     return {
-      name: this.props.name
+      // add message to get default message from props
+      name: this.props.name,
+      message: this.props.message
     };
   },
-  handleNewName: function (name) {
-    this.setState({
-      name: name
-    })
+  handleNewDate: function (updates) {
+    this.setState(updates);
   },
   render: function () {
     var name = this.state.name;
-    var message = this.props.message;
+    var message = this.state.message;
     return (
       <div>
         <GreeterMessage name={name} message={message}/>
-        <GreeterForm onNewName={this.handleNewName}/>
+        <GreeterForm onNewData={this.handleNewData}/>
       </div>
     );
   }
 });
 
-var firstName = 'Mike';
-
 ReactDOM.render(
-  <Greeter name={firstName}/>, // This gets passed from the method above
+  <Greeter/>, // This gets passed from the method above
   document.getElementById('app')
 );
