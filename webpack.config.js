@@ -5,7 +5,7 @@ module.exports = {
     filename: './public/bundle.js'
   },
   resolve: {
-    extentions: ['', '.js', 'jsx']
+    extensions: ['', '.js', '.jsx'] 
   },
   module: {
     loaders: [
